@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 @IntegrationTest
 public class AverageIntegrationTest {
 
-    AverageResult averageResult;
+
 
 
     @Test
@@ -40,10 +40,10 @@ public class AverageIntegrationTest {
     public void should_round_with_HALF_UP() {
         // @formatter:off
         given()
-                .when()
+        .when()
                 .param("numbers", "2,1,1")
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message",equalTo("Average equals: 1.33"));
         //formatter:on
     }
@@ -51,10 +51,10 @@ public class AverageIntegrationTest {
     public void should_print_integer_if_zero_after_dot() {
         // @formatter:off
         given()
-                .when()
+        .when()
                 .param("numbers", "10,25,5,4")
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message",equalTo("Average equals: 11"));
         //formatter:on
     }

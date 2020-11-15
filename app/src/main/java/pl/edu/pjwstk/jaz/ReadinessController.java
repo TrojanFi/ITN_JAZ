@@ -21,8 +21,6 @@ public class ReadinessController {
     public void readinessTest() {
         var entity = new Test1Entity();
         entity.setName("sdavsda");
-
-
         em.persist(entity);
     }
 }

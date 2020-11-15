@@ -18,21 +18,12 @@ public class AverageController {
     public AverageResult getAverage(@RequestParam(value = "numbers", required = false) String numbers) {
         if ( numbers == null ) return new AverageResult("Please put parameters.");
         String[] query = numbers.split(",");
-        double[] queryInt = new double[query.length];
         double sum = 0;
         for(int i = 0; i < query.length; i++){
-            queryInt[i] = Integer.parseInt(query[i]);
-            sum += queryInt[i];
+            sum += Integer.parseInt(query[i]);
         }
 
-       /* Locale locale  = new Locale("en", "UK");
-        String pattern = "0.#";
-        DecimalFormat decimalFormat = (DecimalFormat)
-                NumberFormat.getNumberInstance(locale);
-        decimalFormat.applyPattern(pattern);*/
-        // DecimalFormat format = new DecimalFormat("0.#");
-        // return new AverageResult(String.valueOf(sum));
-        return new AverageResult("Average equals: " + (new BigDecimal(sum/queryInt.length).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros()));
+        return new AverageResult("Average equals: " + (new BigDecimal(sum/query.length).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros()));
 
     }
 }
