@@ -10,17 +10,17 @@ import javax.transaction.Transactional;
 @RestController
 public class ReadinessController {
 
-    private final EntityManager em;
+    private final EntityManager entityManager;
 
-    public ReadinessController(EntityManager em) {
-        this.em = em;
+    public ReadinessController(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional
-    @GetMapping("is-ready")
+    @GetMapping("auth0/is-ready")
     public void readinessTest() {
         var entity = new Test1Entity();
         entity.setName("sdavsda");
-        em.persist(entity);
+        entityManager.persist(entity);
     }
 }

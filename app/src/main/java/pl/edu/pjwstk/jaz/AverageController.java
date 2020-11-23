@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
+
 
 
 @RestController
@@ -22,8 +20,6 @@ public class AverageController {
         for(int i = 0; i < query.length; i++){
             sum += Integer.parseInt(query[i]);
         }
-
         return new AverageResult("Average equals: " + (new BigDecimal(sum/query.length).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros()));
-
     }
 }
