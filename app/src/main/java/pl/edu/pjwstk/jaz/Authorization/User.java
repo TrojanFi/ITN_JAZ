@@ -1,5 +1,8 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
+import org.springframework.stereotype.Component;
+
+
 public class User {
     private String name;
     private String lastName;

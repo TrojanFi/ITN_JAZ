@@ -1,8 +1,7 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class RegisterRequest {
     private String name;
     private String lastName;

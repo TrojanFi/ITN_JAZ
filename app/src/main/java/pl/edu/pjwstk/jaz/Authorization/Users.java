@@ -22,11 +22,15 @@ public class Users {
 
     public boolean NameSame(String username)
     {
-        return username.equals(userHashMap.get(username).getUsername());
+        return username.equals(userHashMap.get(username).getUsername()  );
     }
 
     public boolean PasswordSame(String username, String password)
     {
         return  password.equals(userHashMap.get(username).getPassword());
+    }
+    public boolean IsEmpty(){
+        if(userHashMap.size() > 0) return false;
+        else return true;
     }
 }

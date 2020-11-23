@@ -7,16 +7,22 @@ import java.util.HashMap;
 @Component
 public class AuthenticationService {
 
-    RegisterRequest registerRequest = new RegisterRequest();
-    final UserSession userSession;
+     final UserSession userSession;
+     final Users users;
 
-    public AuthenticationService(UserSession userSession) {
+    public AuthenticationService(UserSession userSession, Users users) {
         this.userSession = userSession;
+        this.users = users;
     }
 
     public boolean login(String username, String password) {
 
-
+        if (users.NameSame(username)) {
+            if (users.PasswordSame(username, password)) {
+                 userSession.logIn();
+                 return true;
+            }
+        }
         return false;
     }
 }
