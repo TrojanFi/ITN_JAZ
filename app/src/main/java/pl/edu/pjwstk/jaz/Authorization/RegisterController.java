@@ -1,5 +1,6 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,13 +16,23 @@ public class RegisterController {
 
     @PostMapping("/register")
     public void register(@RequestBody RegisterRequest registerRequest) {
+        String permission = "User";
         //zarejestrowac
-//        if(users.IsEmpty()) {
-//            if (users.NameSame(registerRequest.getUsername()));
-//        }
-//        else {
-            User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
+        if(users.isEmpty()) {
+            permission = "Admin";
+            User user = new User(registerRequest.getUsername(), registerRequest.getPassword(),permission);
             users.add(user);
-//        }
+            }
+        else {
+            if (!users.nameExist(registerRequest.getUsername())){
+                User user = new User(registerRequest.getUsername(), registerRequest.getPassword(), permission);
+                users.add(user);
+            }
+        }
+    }
+    // remove
+    @GetMapping("/register")
+    public java.util.ArrayList<User> usersInHashMap() {
+        return users.usersInHashMap();
     }
 }

@@ -7,8 +7,10 @@ public class RegisterRequest {
     private String lastName;
     private String username;
     private String password;
+    private String permission;
 
 
+    public void setPermission(String permission) { this.permission = permission; }
 
     public void setName(String name) {
         this.name = name;
@@ -26,6 +28,8 @@ public class RegisterRequest {
         this.password = password;
     }
 
+
+    public String getPermission() { return permission; }
 
     public String getName() {
         return name;

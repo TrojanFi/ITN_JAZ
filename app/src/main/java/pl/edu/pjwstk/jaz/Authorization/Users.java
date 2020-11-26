@@ -2,8 +2,8 @@ package pl.edu.pjwstk.jaz.Authorization;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class Users {
@@ -20,17 +20,26 @@ public class Users {
         return userHashMap.get(username).getUsername();
     }
 
-    public boolean NameSame(String username)
+    public boolean nameExist(String username)
     {
-        return username.equals(userHashMap.get(username).getUsername()  );
+       return userHashMap.containsKey(username);
     }
 
-    public boolean PasswordSame(String username, String password)
+    public String getPermission(String username){
+        return userHashMap.get(username).getPermission();
+    }
+
+    // remove
+    public ArrayList<User> usersInHashMap() {
+
+        return new ArrayList<User>( userHashMap.values());
+    }
+
+    public boolean passwordSame(String username, String password)
     {
         return  password.equals(userHashMap.get(username).getPassword());
     }
-    public boolean IsEmpty(){
-        if(userHashMap.size() > 0) return false;
-        else return true;
+    public boolean isEmpty(){
+        return userHashMap.size() <= 0;
     }
 }

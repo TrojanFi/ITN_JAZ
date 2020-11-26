@@ -8,16 +8,22 @@ public class User {
     private String lastName;
     private String username;
     private String password;
+    private String permission;
 
 
-    public User(String username, String password) {
+    public User(String username, String password,String permission) {
         this.username = username;
         this.password = password;
+        this.permission = permission;
     }
 
     public String getName() {
         return name;
     }
+
+    public String getPermission() { return permission; }
+
+    public void setPermission(String permission) { this.permission = permission; }
 
     public void setName(String name) {
         this.name = name;

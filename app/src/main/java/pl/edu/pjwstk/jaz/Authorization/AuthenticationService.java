@@ -17,10 +17,12 @@ public class AuthenticationService {
 
     public boolean login(String username, String password) {
 
-        if (users.NameSame(username)) {
-            if (users.PasswordSame(username, password)) {
-                 userSession.logIn();
-                 return true;
+        if (users.nameExist(username)) {
+            if (users.passwordSame(username, password)) {
+                    userSession.setPermission(users.getPermission(username));
+                    userSession.setUsername(username);
+                    userSession.logIn();
+                    return true;
             }
         }
         return false;

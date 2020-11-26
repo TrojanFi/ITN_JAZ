@@ -32,7 +32,7 @@ public class ExampleFilter  extends HttpFilter {
     }
 
     private boolean isSiteAllowed(HttpServletRequest request){
-
+        request.getCookies();
         return false;
         // return request.getContextPath().equals("") || request.getContextPath().equals("....");
     }
