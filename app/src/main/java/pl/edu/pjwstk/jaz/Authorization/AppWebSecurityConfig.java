@@ -14,6 +14,8 @@ public class AppWebSecurityConfig {
         FilterRegistrationBean<ExampleFilter> registrationBean = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new ExampleFilter(userSession));
+        registrationBean.addUrlPatterns("/users");
+        registrationBean.addUrlPatterns("/admin");
         registrationBean.addUrlPatterns("/auth0/*");
 
         return  registrationBean;
