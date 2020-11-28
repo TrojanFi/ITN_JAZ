@@ -1,8 +1,10 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.Collection;
 
 @Component
 public class AuthenticationService {
@@ -22,6 +24,9 @@ public class AuthenticationService {
                     userSession.setPermission(users.getPermission(username));
                     userSession.setUsername(username);
                     userSession.logIn();
+                    // Nadanie tokena
+                     SecurityContextHolder.getContext().setAuthentication(new AppAuthentication(users.getUser(username)));
+
                     return true;
             }
         }

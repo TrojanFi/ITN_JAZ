@@ -2,6 +2,9 @@ package pl.edu.pjwstk.jaz.Authorization;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class User {
     private String name;
@@ -10,11 +13,22 @@ public class User {
     private String password;
     private String permission;
 
+    private Set<String> authorities;
+
 
     public User(String username, String password,String permission) {
         this.username = username;
         this.password = password;
         this.permission = permission;
+        authorities = new HashSet<>();
+    }
+
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void addAuthorities(String permission){
+        authorities.add(permission);
     }
 
     public String getName() {

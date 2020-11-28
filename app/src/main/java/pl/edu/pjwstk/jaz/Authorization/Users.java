@@ -28,6 +28,7 @@ public class Users {
     public String getPermission(String username){
         return userHashMap.get(username).getPermission();
     }
+    public User getUser(String username){return userHashMap.get(username);}
 
     // remove
     public ArrayList<User> usersInHashMap() {

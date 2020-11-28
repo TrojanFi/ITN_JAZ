@@ -21,11 +21,13 @@ public class RegisterController {
         if(users.isEmpty()) {
             permission = "Admin";
             User user = new User(registerRequest.getUsername(), registerRequest.getPassword(),permission);
+            user.addAuthorities(permission);
             users.add(user);
             }
         else {
             if (!users.nameExist(registerRequest.getUsername())){
                 User user = new User(registerRequest.getUsername(), registerRequest.getPassword(), permission);
+              user.addAuthorities(permission);
                 users.add(user);
             }
         }
