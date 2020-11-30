@@ -13,6 +13,8 @@ public class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/admin").hasAnyAuthority("Admin")
+                .antMatchers("/users").hasAnyAuthority("User")
                 .antMatchers("/auth0/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();

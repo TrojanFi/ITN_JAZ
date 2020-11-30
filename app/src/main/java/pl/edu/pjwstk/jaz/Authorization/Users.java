@@ -43,4 +43,11 @@ public class Users {
     public boolean isEmpty(){
         return userHashMap.size() <= 0;
     }
+
+
+//    public Users(){
+//
+//        User userOne = new User("C", "C","Admin");
+//        userHashMap.put("Steve",userOne);
+//    }
 }

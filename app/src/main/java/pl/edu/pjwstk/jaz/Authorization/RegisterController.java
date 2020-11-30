@@ -14,7 +14,7 @@ public class RegisterController {
         this.users = users;
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public void register(@RequestBody RegisterRequest registerRequest) {
         String permission = "User";
         //zarejestrowac

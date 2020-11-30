@@ -33,7 +33,9 @@ public class UserSession {
     public void logIn(){
         isLogged = true;
     }
-
+    public void logOut(){
+        isLogged = false;
+    }
     public boolean isLoggedIn() {
         return isLogged;
     }

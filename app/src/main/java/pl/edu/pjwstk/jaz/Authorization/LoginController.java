@@ -13,7 +13,7 @@ public class LoginController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public void  login(@RequestBody LoginRequest loginRequest) {
         //zalogowac
         var isLogged = authenticationService.login(loginRequest.getUsername(), loginRequest.getPassword());

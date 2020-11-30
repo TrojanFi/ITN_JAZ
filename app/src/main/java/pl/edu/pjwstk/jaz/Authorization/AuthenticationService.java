@@ -30,6 +30,7 @@ public class AuthenticationService {
                     return true;
             }
         }
+        userSession.logOut();
         return false;
     }
 }

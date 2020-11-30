@@ -9,6 +9,10 @@ public class RegisterRequest {
     private String password;
     private String permission;
 
+    public RegisterRequest(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 
     public void setPermission(String permission) { this.permission = permission; }
 
