@@ -17,7 +17,7 @@ public class ReadinessController {
         this.entityManager = entityManager;
     }
 
-    @PreAuthorize("hasAnyAuthority('User')")
+    @PreAuthorize("hasAnyAuthority('Everyone')")
     @Transactional
     @GetMapping("auth0/is-ready")
     public void readinessTest() {

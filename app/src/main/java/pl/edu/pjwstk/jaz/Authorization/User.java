@@ -21,6 +21,7 @@ public class User {
         this.password = password;
         this.permission = permission;
         authorities = new HashSet<>();
+        authorities.add("Everyone");
     }
 
     public Set<String> getAuthorities() {

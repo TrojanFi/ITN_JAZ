@@ -23,12 +23,14 @@ public class RegisterController {
             User user = new User(registerRequest.getUsername(), registerRequest.getPassword(),permission);
             user.addAuthorities(permission);
             users.add(user);
+            System.out.println("add admin");
             }
         else {
             if (!users.nameExist(registerRequest.getUsername())){
                 User user = new User(registerRequest.getUsername(), registerRequest.getPassword(), permission);
               user.addAuthorities(permission);
                 users.add(user);
+                System.out.println("add user");
             }
         }
     }
