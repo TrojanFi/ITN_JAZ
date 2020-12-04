@@ -21,17 +21,11 @@ public class AuthenticationService {
 
         if (users.nameExist(username)) {
             if (users.passwordSame(username, password)) {
-                System.out.println("Logged");
-                    userSession.setPermission(users.getPermission(username));
-                    userSession.setUsername(username);
-                    userSession.logIn();
-                    // Nadanie tokena
+                        userSession.logIn();
                      SecurityContextHolder.getContext().setAuthentication(new AppAuthentication(users.getUser(username)));
-
                     return true;
             }
         }
-        System.out.println("Not Logged");
         userSession.logOut();
         return false;
     }

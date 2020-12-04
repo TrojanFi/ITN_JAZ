@@ -72,6 +72,13 @@ public class UserTest {
     }
 
     @Test
+    public void loginUserTestBad() throws Exception {
+        mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"userbad\",\"password\" : \"userbad\"}"))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
     public void openUserPage() throws Exception {
         mockMvc.perform(get("/users")
                 .contentType(MediaType.APPLICATION_JSON)
