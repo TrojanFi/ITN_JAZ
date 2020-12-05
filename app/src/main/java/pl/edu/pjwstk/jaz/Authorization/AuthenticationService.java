@@ -26,7 +26,7 @@ public class AuthenticationService {
                     return true;
             }
         }
-        userSession.logOut();
+       // userSession.logOut();
         return false;
     }
 }
