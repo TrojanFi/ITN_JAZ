@@ -29,29 +29,50 @@ public class UserTest {
                 .post("/api/register");
 
     }
+    @Test
+    public void adminRegisterTest() {
+        // @formatter:off
+        given()
+                .body(new RegisterRequest("User","User"))
+                .contentType(ContentType.JSON)
+                .post("/api/register")
+                .then()
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
+    }
+    @Test
+    public void userLoginTest() {
+        // @formatter:off
+        given()
+                .body(new LoginRequest("User","User"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .then()
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
+    }
 
     @Test
-    public void adminLoginOnAdminPage() {
+    public void userLoginOnUserPage() {
         // @formatter:off
         var response =given()
-                .body(new LoginRequest("Admin","Admin"))
+                .body(new LoginRequest("User","User"))
                 .contentType(ContentType.JSON)
                 .post("/api/login")
                 .thenReturn();
         given()
                 .cookies(response.getCookies())
-                .get("/api/admin")
+                .get("/api/users")
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
         // @formatter:on
-
     }
 
     @Test
-    public void adminLoginOnIsReadyPage() {
+    public void userLoginOnIsReadyPage() {
         // @formatter:off
         var response =given()
-                .body(new LoginRequest("Admin","Admin"))
+                .body(new LoginRequest("User","User"))
                 .contentType(ContentType.JSON)
                 .post("/api/login")
                 .thenReturn();
@@ -61,7 +82,21 @@ public class UserTest {
                 .then()
                 .statusCode(HttpStatus.OK.value());
         // @formatter:on
-
+    }
+    @Test
+    public void userLoginOnAdminPage() {
+        // @formatter:off
+        var response =given()
+                .body(new LoginRequest("User","User"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .thenReturn();
+        given()
+                .cookies(response.getCookies())
+                .get("/api/admin")
+                .then()
+                .statusCode(HttpStatus.FORBIDDEN.value());
+        // @formatter:on
     }
 
 }

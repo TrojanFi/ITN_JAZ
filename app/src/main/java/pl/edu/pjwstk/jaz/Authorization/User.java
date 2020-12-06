@@ -11,15 +11,13 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-    private String permission;
 
     private Set<String> authorities;
 
 
-    public User(String username, String password,String permission) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.permission = permission;
         authorities = new HashSet<>();
         authorities.add("Everyone");
     }
@@ -35,10 +33,6 @@ public class User {
     public String getName() {
         return name;
     }
-
-    public String getPermission() { return permission; }
-
-    public void setPermission(String permission) { this.permission = permission; }
 
     public void setName(String name) {
         this.name = name;

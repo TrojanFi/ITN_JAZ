@@ -25,9 +25,6 @@ public class Users {
        return userHashMap.containsKey(username);
     }
 
-    public String getPermission(String username){
-        return userHashMap.get(username).getPermission();
-    }
     public User getUser(String username){return userHashMap.get(username);}
 
     // remove
@@ -44,10 +41,4 @@ public class Users {
         return userHashMap.size() <= 0;
     }
 
-
-//    public Users(){
-//
-//        User userOne = new User("C", "C","Admin");
-//        userHashMap.put("Steve",userOne);
-//    }
 }

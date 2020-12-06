@@ -1,181 +1,98 @@
 package pl.edu.pjwstk.jaz.LoginRegister;
 
 
-import junit.framework.Assert;
-import org.apache.http.HttpStatus;
-import org.junit.Before;
+import io.restassured.http.ContentType;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 import pl.edu.pjwstk.jaz.Authorization.LoginRequest;
 import pl.edu.pjwstk.jaz.Authorization.RegisterRequest;
 import pl.edu.pjwstk.jaz.IntegrationTest;
 
 
 import static io.restassured.RestAssured.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 @RunWith(SpringRunner.class)
 @IntegrationTest
 public class AdminTest {
 
-    private MockMvc mockMvc;
-
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Before
-    public void setUp() {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
-    }
-
-    @Before
-    public void registerAdmin() throws Exception {
-        mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"admin\",\"password\" : \"admin\"}"))
-                .andExpect(status().isOk());
-    }
-    @Before
-    public void loginAdmin() throws Exception {
-        mockMvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"admin\",\"password\" : \"admin\"}"))
-                .andExpect(status().isOk());
-    }
-    @Test
-    public void registerAdminTest() throws Exception {
-        mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"admin\",\"password\" : \"admin\"}"))
-                .andExpect(status().isOk());
-    }
-    @Test
-    public void loginAdminTest() throws Exception {
-        mockMvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"admin\",\"password\" : \"admin\"}"))
-                .andExpect(status().isOk());
+    @BeforeClass
+    public static void beforeClassRegisterAdmin(){
+        given()
+                .body(new RegisterRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/register");
     }
 
     @Test
-    public void loginUserTest() throws Exception {
-        mockMvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"user\",\"password\" : \"user\"}"))
-                .andExpect(status().isUnauthorized());
+    public void adminRegisterTest() {
+        // @formatter:off
+        given()
+                .body(new RegisterRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/register")
+                .then()
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
+    }
+    @Test
+    public void adminLoginTest() {
+        // @formatter:off
+        given()
+                .body(new LoginRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .then()
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
     }
 
     @Test
-    public void openAdminPage() throws Exception {
-        mockMvc.perform(get("/admin")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(""))
-                .andExpect(status().isOk());
+    public void adminLoginOnAdminPage() {
+        // @formatter:off
+        var response =given()
+                .body(new LoginRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .thenReturn();
+        given()
+                .cookies(response.getCookies())
+                .get("/api/admin")
+                .then()
+                .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
+    }
+
+    @Test
+    public void adminLoginOnIsReadyPage() {
+        // @formatter:off
+        var response =given()
+                .body(new LoginRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .thenReturn();
+        given()
+                .cookies(response.getCookies())
+                .get("/api/auth0/is-ready")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+        // @formatter:on
     }
     @Test
-    public void openEveryonePage() throws Exception {
-        mockMvc.perform(get("/auth0/is-ready")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(""))
-                .andExpect(status().isOk());
+    public void adminLoginOnUserPage() {
+        // @formatter:off
+        var response =given()
+                .body(new LoginRequest("Admin","Admin"))
+                .contentType(ContentType.JSON)
+                .post("/api/login")
+                .thenReturn();
+        given()
+                .cookies(response.getCookies())
+                .get("/api/users")
+                .then()
+                .statusCode(HttpStatus.FORBIDDEN.value());
+        // @formatter:on
     }
-    @Test
-    public void openUserPage() {
-        try {
-            mockMvc.perform(get("/users")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(""))
-                    .andExpect(status().isOk());
-        }catch (Exception e){
-            Assert.assertTrue(e.getCause() instanceof AccessDeniedException);
-        }
-    }
-
-//    @Test
-//    public void openAdminPage() {
-//        // @formatter:off
-//        given()
-//                .get("/api/admin")
-//                .then()
-//                .statusCode(HttpStatus.SC_OK);
-//        // @formatter:on
-//
-//    }
-//    @Test
-//    public void openUserPage() {
-//        // @formatter:off
-//        given()
-//                .get("/api/users")
-//                .then()
-//                .statusCode(HttpStatus.SC_FORBIDDEN);
-//        // @formatter:on
-//
-//    }
-
-
-
-
-
-
-
-    //    @BeforeClass
-//    public static void beforeClassRegisterAdmin() throws Exception {
-//            given()
-//                .body(new RegisterRequest("A","A"))
-//                .when()
-//                .post("/api/register")
-//                .thenReturn();
-//    }
-//    @BeforeClass
-//    public static void beforeClassRegisterUser() throws Exception {
-//        given()
-//                .body(new RegisterRequest("U","U"))
-//                .when()
-//                .post("/api/register")
-//                .thenReturn();
-//    }
-//
-//    @Test
-//    public void user_register() {
-//        // @formatter:off
-//        given()
-//                .body(new RegisterRequest("U","U"))
-//                .when()
-//                .get("/api/register")
-//                .then()
-//                .statusCode(HttpStatus.SC_OK);
-//        // @formatter:on
-//
-//    }
-
-//    @Test
-//    public void admin_login_is_ready() {
-//        // @formatter:off
-//        given()
-//                .body(new RegisterRequest("A","A"))
-//                .when()
-//                .post("/api/register")
-//                .thenReturn();
-//        var response =    given()
-//                .body(new LoginRequest("A","A"))
-//                .post("/api/login")
-//                .thenReturn();
-//        given()
-//                .cookies(response.getCookies())
-//                .get("/api/is-ready")
-//                .then()
-//                .statusCode(HttpStatus.SC_OK);
-//        // @formatter:on
-//
-//    }
 
 }

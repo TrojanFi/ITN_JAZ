@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class RegisterController {
 
     private final Users users;
+//    private final UserService userService;
 
     public RegisterController(Users users) {
         this.users = users;
+//        this.userService = userService;
     }
 
     @PostMapping("register")
@@ -20,14 +23,17 @@ public class RegisterController {
         //zarejestrowac
         if(users.isEmpty()) {
             permission = "Admin";
-            User user = new User(registerRequest.getUsername(), registerRequest.getPassword(),permission);
+            User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
             user.addAuthorities(permission);
             users.add(user);
-            System.out.println("add admin");
+
+//            userService.saveUser(registerRequest.getUsername());
+//            UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
+//            System.out.println("add admin" + singleResult);
             }
         else {
             if (!users.nameExist(registerRequest.getUsername())){
-                User user = new User(registerRequest.getUsername(), registerRequest.getPassword(), permission);
+                User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
               user.addAuthorities(permission);
                 users.add(user);
                 System.out.println("add user");
