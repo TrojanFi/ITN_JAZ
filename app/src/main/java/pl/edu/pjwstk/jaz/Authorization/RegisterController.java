@@ -4,17 +4,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import pl.edu.pjwstk.jaz.DataBase.UserEntity;
+import pl.edu.pjwstk.jaz.DataBase.UserService;
 
 @RestController
 public class RegisterController {
 
     private final Users users;
-//    private final UserService userService;
+    private final UserService userService;
 
-    public RegisterController(Users users) {
+    public RegisterController(Users users, UserService userService) {
         this.users = users;
-//        this.userService = userService;
+        this.userService = userService;
     }
 
     @PostMapping("register")
@@ -27,9 +28,9 @@ public class RegisterController {
             user.addAuthorities(permission);
             users.add(user);
 
-//            userService.saveUser(registerRequest.getUsername());
-//            UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
-//            System.out.println("add admin" + singleResult);
+            userService.saveUser(registerRequest.getUsername());
+            UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
+            System.out.println("add admin" + singleResult);
             }
         else {
             if (!users.nameExist(registerRequest.getUsername())){
