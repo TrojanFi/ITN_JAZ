@@ -21,8 +21,5 @@ public class ReadinessController {
     @Transactional
     @GetMapping("auth0/is-ready")
     public void readinessTest() {
-        var entity = new Test1Entity();
-        entity.setName("sdavsda");
-        entityManager.persist(entity);
     }
 }
