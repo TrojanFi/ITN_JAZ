@@ -28,7 +28,7 @@ public class RegisterController {
             user.addAuthorities(permission);
             users.add(user);
 
-            userService.saveUser(registerRequest.getUsername());
+            userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword());
             UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
             System.out.println("add admin" + singleResult);
             }

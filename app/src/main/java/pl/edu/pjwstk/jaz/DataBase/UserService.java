@@ -5,8 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @Repository
+@Transactional
 public class UserService {
     private final EntityManager entityManager;
 
@@ -16,20 +18,22 @@ public class UserService {
         this.entityManager = entityManager;
     }
 
-    public void saveUser(String username) {
+    public void saveUser(String username,String password) {
         var userEntity = new UserEntity();
 
         userEntity.setUsername(username);
-        userEntity.setId((long) 0);
-        userEntity.setPassword("admin");
+   //     userEntity.setId((long) 0);
+        userEntity.setPassword(password);
 
         //zapisanie użytkownika do bazy danych
+//        entityManager.getTransaction().begin();
         entityManager.persist(userEntity);
+//        entityManager.getTransaction().commit();
     }
     //zwracanie user
     public UserEntity findUserByUsername(String username){
-      return entityManager.createQuery("select ue from UserEntity ue where ue.id = :id", UserEntity.class)
-        .setParameter("id",0)//username
+      return entityManager.createQuery("select ue from UserEntity ue where ue.username = :username", UserEntity.class)
+        .setParameter("username",username)//username
         .getSingleResult();
     }
 }
