@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pjwstk.jaz.DataBase.UserEntity;
 import pl.edu.pjwstk.jaz.DataBase.UserService;
 
+import javax.persistence.NoResultException;
+
 @RestController
 public class RegisterController {
 
@@ -21,23 +23,29 @@ public class RegisterController {
     @PostMapping("register")
     public void register(@RequestBody RegisterRequest registerRequest) {
         String permission = "User";
-        //zarejestrowac
-        if(users.isEmpty()) {
+
+        Number sum = userService.users();
+        System.out.println(sum);
+        //zarejestrowac || sum.equals(0)
+        if(users.isEmpty() ) {
             permission = "Admin";
             User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
             user.addAuthorities(permission);
             users.add(user);
-
+            // dodanie do bazy i wyciagniecie z bazy
             userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword());
             UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
             System.out.println("add admin" + singleResult);
             }
-        else {
-            if (!users.nameExist(registerRequest.getUsername())){
+        else { //|| !userService.userExist(registerRequest.getUsername())
+            if (!users.nameExist(registerRequest.getUsername()) ){
                 User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
-              user.addAuthorities(permission);
+                user.addAuthorities(permission);
                 users.add(user);
-                System.out.println("add user");
+                // dodanie do bazy i wyciagniecie z bazy
+                userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword());
+                UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
+                System.out.println("add user" + singleResult);
             }
         }
     }
