@@ -1,7 +1,9 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
 import org.springframework.stereotype.Component;
+import pl.edu.pjwstk.jaz.DataBase.RoleEntity;
 
+import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +13,8 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-
     private Set<String> authorities;
+
 
 
     public User(String username, String password) {
@@ -22,9 +24,16 @@ public class User {
         authorities.add("Everyone");
     }
 
+    public User(String username, String password,Set<String> roles) {
+        this.username = username;
+        this.password = password;
+        authorities = roles;
+    }
+
     public Set<String> getAuthorities() {
         return authorities;
     }
+
 
     public void addAuthorities(String permission){
         authorities.add(permission);

@@ -3,6 +3,7 @@ package pl.edu.pjwstk.jaz.Authorization;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import pl.edu.pjwstk.jaz.DataBase.UserEntity;
 
 import java.util.Collection;
 import java.util.Set;

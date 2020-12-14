@@ -25,29 +25,29 @@ public class RegisterController {
         String permission = "User";
 
         Number sum = userService.users();
+        int usersNumber = sum.intValue();
         System.out.println(sum);
-        //zarejestrowac || sum.equals(0)
-        if(users.isEmpty() ) {
+        //zarejestrowac users.isEmpty()
+        if(usersNumber == 0) {
             permission = "Admin";
             User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
             user.addAuthorities(permission);
             users.add(user);
             // dodanie do bazy i wyciagniecie z bazy
-            userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword());
+            userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword(),user.getAuthorities());
             UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
             System.out.println("add admin" + singleResult);
-            }
-        else { //|| !userService.userExist(registerRequest.getUsername())
-            if (!users.nameExist(registerRequest.getUsername()) ){
+            }// !users.nameExist(registerRequest.getUsername())
+            else if (!userService.userExist(registerRequest.getUsername()) ){
                 User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
                 user.addAuthorities(permission);
                 users.add(user);
                 // dodanie do bazy i wyciagniecie z bazy
-                userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword());
+                userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword(),user.getAuthorities());
                 UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
                 System.out.println("add user" + singleResult);
             }
-        }
+
     }
     // remove
     @GetMapping("/register")
