@@ -1,9 +1,6 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
-import org.springframework.stereotype.Component;
-import pl.edu.pjwstk.jaz.DataBase.RoleEntity;
 
-import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,5 +68,8 @@ public class User {
         this.password = password;
     }
 
-
+    @Override
+    public String toString() {
+        return username;
+    }
 }

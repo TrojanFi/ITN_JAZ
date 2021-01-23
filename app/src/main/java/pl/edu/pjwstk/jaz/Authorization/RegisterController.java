@@ -33,10 +33,12 @@ public class RegisterController {
             User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
             user.addAuthorities(permission);
             users.add(user);
+
             // dodanie do bazy i wyciagniecie z bazy
             userService.saveUser(registerRequest.getUsername(),registerRequest.getPassword(),user.getAuthorities());
             UserEntity singleResult = userService.findUserByUsername(registerRequest.getUsername());
             System.out.println("add admin" + singleResult);
+
             }// !users.nameExist(registerRequest.getUsername())
             else if (!userService.userExist(registerRequest.getUsername()) ){
                 User user = new User(registerRequest.getUsername(), registerRequest.getPassword());

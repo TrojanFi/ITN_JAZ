@@ -91,4 +91,8 @@ public class UserService {
         }
         return false;
     }
+    public Long getIdFromUser(String username){
+        UserEntity name = userRepository.findByUsername(username).orElseGet(UserEntity::new);
+        return name.getId();
+    }
 }

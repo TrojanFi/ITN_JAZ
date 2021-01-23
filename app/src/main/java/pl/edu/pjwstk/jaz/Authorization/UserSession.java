@@ -1,6 +1,6 @@
 package pl.edu.pjwstk.jaz.Authorization;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -21,6 +21,5 @@ public class UserSession {
     }
     //tutaj jakas zmienna informacja
     // która pozwoli okreslic czy uzytkownik jest zalogowany
-
     //metody do zarzadzania
 }
