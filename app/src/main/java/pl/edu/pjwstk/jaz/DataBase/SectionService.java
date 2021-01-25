@@ -1,9 +1,6 @@
 package pl.edu.pjwstk.jaz.DataBase;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import pl.edu.pjwstk.jaz.Authorization.AuthenticationService;
 import pl.edu.pjwstk.jaz.dao.CategoryRepository;
 import pl.edu.pjwstk.jaz.dao.SectionRepository;
 
@@ -57,7 +54,7 @@ public class SectionService {
         }
     }
 
-    public void addAuction(String categoryName, String title, String description,int price,Long owner_id) {
+    public void addAuction(String categoryName, String title, String description,int price,Long owner_id,List<String> photos) {
         CategoryEntity categoryEntity = categoryRepository.findByName(categoryName).orElseGet(CategoryEntity::new);
         if(categoryEntity.getName() == null){
             System.out.println("No section like that");
@@ -65,6 +62,11 @@ public class SectionService {
         else {
             AuctionEntity auctionEntity = new AuctionEntity(title,description,owner_id,price);
             categoryEntity.getAuctions().add(auctionEntity);
+            Long position = (long) 1;
+            for (String photo : photos) {
+                PhotoEntity photoEntity = new PhotoEntity(photo, position++);
+                auctionEntity.getPhotos().add(photoEntity);
+            }
         }
     }
 

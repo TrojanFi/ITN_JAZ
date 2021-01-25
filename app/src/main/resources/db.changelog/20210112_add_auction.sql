@@ -47,7 +47,7 @@ CREATE TABLE photo
     id         BIGSERIAL NOT NULL PRIMARY KEY,
     auction_id BIGINT,
     link       VARCHAR,
-    position   BIGINT    NOT NULL,
+    position   BIGINT,
     FOREIGN KEY (auction_id) REFERENCES auction (id)
 );
 

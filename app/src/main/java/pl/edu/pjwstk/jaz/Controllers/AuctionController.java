@@ -26,6 +26,6 @@ public class AuctionController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getPrincipal());
         Long owner_id = userService.getIdFromUser(String.valueOf(auth.getPrincipal()));
-        sectionService.addAuction(auctionRequest.getCategory(),auctionRequest.getTitle(),auctionRequest.getDescription(),auctionRequest.getPrice(),owner_id);
+        sectionService.addAuction(auctionRequest.getCategory(),auctionRequest.getTitle(),auctionRequest.getDescription(),auctionRequest.getPrice(),owner_id,auctionRequest.getPhotos());
     }
 }
