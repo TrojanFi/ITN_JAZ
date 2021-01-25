@@ -1,6 +1,7 @@
 package pl.edu.pjwstk.jaz.DataBase;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "parameter")
@@ -12,6 +13,24 @@ public class ParameterEntity {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "parameterEntity")
+    Set<AuctionParameterEntity> auctionParameterEntities;
+
+    public Set<AuctionParameterEntity> getAuctionParameterEntities() {
+        return auctionParameterEntities;
+    }
+
+    public void setAuctionParameterEntities(Set<AuctionParameterEntity> auctionParameterEntities) {
+        this.auctionParameterEntities = auctionParameterEntities;
+    }
+
+    public ParameterEntity(String name) {
+        this.name = name;
+    }
+
+    public ParameterEntity() {
+    }
 
     public Long getId() {
         return id;

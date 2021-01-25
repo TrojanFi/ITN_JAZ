@@ -1,7 +1,5 @@
 package pl.edu.pjwstk.jaz.DataBase;
 
-import liquibase.pro.packaged.C;
-import liquibase.pro.packaged.I;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,6 +31,21 @@ public class AuctionEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id", referencedColumnName = "id")
     private final Set<PhotoEntity> photos = new HashSet<>();
+
+    @OneToMany(mappedBy = "auctionEntity")
+    Set<AuctionParameterEntity> auctionParameterEntities = new HashSet<>();
+
+    public Set<AuctionParameterEntity> getAuctionParameterEntities() {
+        return auctionParameterEntities;
+    }
+
+    public void setAuctionParameterEntities(Set<AuctionParameterEntity> auctionParameterEntities) {
+        this.auctionParameterEntities = auctionParameterEntities;
+    }
+
+    public void addAuctionParameter(AuctionParameterEntity auctionParameterEntity){
+        auctionParameterEntities.add(auctionParameterEntity);
+    }
 
     public Set<PhotoEntity> getPhotos() {
         return photos;

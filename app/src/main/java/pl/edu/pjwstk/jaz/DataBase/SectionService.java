@@ -1,12 +1,12 @@
 package pl.edu.pjwstk.jaz.DataBase;
 
 import org.springframework.stereotype.Service;
-import pl.edu.pjwstk.jaz.dao.CategoryRepository;
-import pl.edu.pjwstk.jaz.dao.SectionRepository;
+import pl.edu.pjwstk.jaz.dao.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -14,11 +14,15 @@ public class SectionService {
 
     private final SectionRepository sectionRepository;
     private final CategoryRepository categoryRepository;
+    private final AuctionRepository auctionRepository;
+    private final ParameterRepository parameterRepository;
     private final EntityManager entityManager;
 
-    public SectionService(SectionRepository sectionRepository, CategoryRepository categoryRepository, EntityManager entityManager) {
+    public SectionService(SectionRepository sectionRepository, CategoryRepository categoryRepository, AuctionRepository auctionRepository, ParameterRepository parameterRepository, EntityManager entityManager) {
         this.sectionRepository = sectionRepository;
         this.categoryRepository = categoryRepository;
+        this.auctionRepository = auctionRepository;
+        this.parameterRepository = parameterRepository;
         this.entityManager = entityManager;
     }
 
@@ -54,7 +58,7 @@ public class SectionService {
         }
     }
 
-    public void addAuction(String categoryName, String title, String description,int price,Long owner_id,List<String> photos) {
+    public void addAuction(String categoryName, String title, String description,int price,Long owner_id,List<String> photos,List<String> values,List<String> parameters) {
         CategoryEntity categoryEntity = categoryRepository.findByName(categoryName).orElseGet(CategoryEntity::new);
         if(categoryEntity.getName() == null){
             System.out.println("No section like that");
@@ -67,6 +71,38 @@ public class SectionService {
                 PhotoEntity photoEntity = new PhotoEntity(photo, position++);
                 auctionEntity.getPhotos().add(photoEntity);
             }
+
+            for (int i = 0; i < parameters.size(); i++) {
+            ParameterEntity parameterEntity = parameterRepository.findByName(parameters.get(i)).orElseGet(ParameterEntity::new);
+            if(parameterEntity.getName() == null){
+                parameterEntity.setName(parameters.get(i));
+                this.parameterRepository.save(parameterEntity);
+            }
+            else {
+                System.out.println("Parameter already exists ");
+            }
+
+            this.auctionRepository.save(auctionEntity);
+            this.parameterRepository.save(parameterEntity);
+            AuctionParameterEntity auctionParameterEntity = new AuctionParameterEntity(new AuctionParameterKey(auctionEntity.getId(),parameterEntity.getId()),values.get(i));
+            auctionParameterEntity.setAuctionEntity(auctionEntity);
+            auctionParameterEntity.setParameterEntity(parameterEntity);
+            auctionEntity.addAuctionParameter(auctionParameterEntity);
+            entityManager.merge(auctionParameterEntity);
+            }
+
+
+
+
+
+//           for (String value : values) {
+
+
+//           }
+//            for (String parameter : parameters) {
+//                ParameterEntity parameterEntity = new ParameterEntity(parameter);
+//                System.out.println(parameterEntity);
+//            }
         }
     }
 

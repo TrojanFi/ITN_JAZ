@@ -9,16 +9,35 @@ public class AuctionRequest {
     private String title;
     private int price;
     private List<String> photos;
+    private List<String> values;
+    private List<String> parameters;
 
-
-
-    public AuctionRequest(String description, String title, int price, String category, List<String> photos) {
+    public AuctionRequest(String description, String title, int price, String category, List<String> photos, List<String> values, List<String> parameters) {
         this.description = description;
         this.title = title;
         this.price = price;
         this.category = category;
         this.photos = photos;
+        this.values = values;
+        this.parameters = parameters;
     }
+
+    public List<String> getValues() {
+        return values;
+    }
+
+    public void setValues(List<String> values) {
+        this.values = values;
+    }
+
+    public List<String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<String> parameters) {
+        this.parameters = parameters;
+    }
+
     public String getCategory() {
         return category;
     }

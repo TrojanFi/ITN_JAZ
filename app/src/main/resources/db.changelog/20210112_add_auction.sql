@@ -35,7 +35,7 @@ CREATE TABLE auction_parameter
 (
     auction_id   BIGINT,
     parameter_id BIGINT,
-    value        VARCHAR NOT NULL,
+    value        VARCHAR,
     FOREIGN KEY (auction_id) REFERENCES auction (id),
     FOREIGN KEY (parameter_id) REFERENCES parameter (id),
     CONSTRAINT auction_parameter_id PRIMARY KEY (auction_id, parameter_id)
