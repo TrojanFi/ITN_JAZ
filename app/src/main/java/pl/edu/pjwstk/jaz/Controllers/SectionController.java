@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pjwstk.jaz.DataBase.SectionService;
+import pl.edu.pjwstk.jaz.Requests.CategoryRequest;
 import pl.edu.pjwstk.jaz.Requests.SectionNameRequest;
 import pl.edu.pjwstk.jaz.Requests.SectionRequest;
 
@@ -35,5 +36,11 @@ public class SectionController {
     @PostMapping("/editSection")
     public void editSection(@RequestBody SectionNameRequest sectionRequest){
         sectionService.editSection(sectionRequest.getName(),sectionRequest.getNewName());
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PostMapping("/editCategory")
+    public void editSection(@RequestBody CategoryRequest categoryRequest){
+        sectionService.editCategory(categoryRequest.getName(),categoryRequest.getNewName());
     }
 }

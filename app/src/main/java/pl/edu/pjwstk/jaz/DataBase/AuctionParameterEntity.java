@@ -23,6 +23,10 @@ public class AuctionParameterEntity {
     private String value;
 
 
+    public Long getAuctionId(AuctionEntity auctionEntity){
+        return auctionEntity.getId();
+    }
+
     public AuctionParameterEntity(AuctionParameterKey auction_parameter_id,String value) {
         this.value = value;
         this.auction_parameter_id = auction_parameter_id;

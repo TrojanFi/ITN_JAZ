@@ -67,8 +67,7 @@ public class UserService {
     //liczba userów
     public Number users() {
         Query q = entityManager.createQuery("SELECT count(ue) FROM UserEntity ue");
-        Number result = (Number) q.getSingleResult();
-        return result;
+        return (Number) q.getSingleResult();
     }
 
     //czy jest user
