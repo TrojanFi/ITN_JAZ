@@ -6,8 +6,9 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pjwstk.jaz.dao.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Transactional
@@ -20,7 +21,7 @@ public class SectionService {
     private final ParameterRepository parameterRepository;
     private final EntityManager entityManager;
     private final AuctionParameterRepository auctionParameterRepository;
-    private Long auction_id;
+    MiniatureEntity miniatureEntity;
 
     public SectionService(SectionRepository sectionRepository, CategoryRepository categoryRepository, AuctionRepository auctionRepository, ParameterRepository parameterRepository, EntityManager entityManager, AuctionParameterRepository auctionParameterRepository) {
         this.sectionRepository = sectionRepository;
@@ -230,10 +231,28 @@ public class SectionService {
                .setParameter("auction_id",auction_id)
                .getSingleResult();
    }
-    public List<AuctionEntity> getAuction(Long owner_id,Long position) {
-        return entityManager.createQuery("select ue from AuctionEntity ue,PhotoEntity po where  ue.owner_id =: owner_id and po.position =: position", AuctionEntity.class)
+
+    public List<AuctionEntity> auctions(Long owner_id){
+        return entityManager.createQuery("select ue from AuctionEntity ue where ue.owner_id =: owner_id",AuctionEntity.class)
                 .setParameter("owner_id",owner_id)
-                .setParameter("position",position)
                 .getResultList();
+    }
+
+
+    public List<MiniatureEntity> getAuction(Long owner_id) {
+       List<MiniatureEntity> miniatureEntities = new ArrayList<>();
+            for (AuctionEntity auction : auctions(owner_id) ){
+                miniatureEntity = new MiniatureEntity();
+                AuctionEntity auctionEntity = findAuctionByOwnerId(auction.getId(),owner_id);
+                PhotoEntity photoEntity = findPhotoByAuctionId(auctionEntity.getId(),1L);
+                miniatureEntity.setId(auction.getId());
+                miniatureEntity.setCategory_id(auction.getCategory_id());
+                miniatureEntity.setDescription(auction.getDescription());
+                miniatureEntity.setTitle(auction.getTitle());
+                miniatureEntity.setPrice(auction.getPrice());
+                miniatureEntity.setPhoto(photoEntity.getLink());
+                miniatureEntities.add(miniatureEntity);
+        }
+        return miniatureEntities;
     }
 }

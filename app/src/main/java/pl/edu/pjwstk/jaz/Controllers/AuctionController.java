@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pjwstk.jaz.DataBase.AuctionEntity;
+import pl.edu.pjwstk.jaz.DataBase.MiniatureEntity;
 import pl.edu.pjwstk.jaz.DataBase.SectionService;
 import pl.edu.pjwstk.jaz.DataBase.UserService;
 import pl.edu.pjwstk.jaz.Requests.AuctionEditRequest;
@@ -64,10 +65,10 @@ public class AuctionController {
 
     @PreAuthorize("hasAnyAuthority('User')")
     @GetMapping("/getAuctionWithPhoto")
-    public List<AuctionEntity> getAuctionWithPhoto(){
+    public List<MiniatureEntity> getAuctionWithPhoto(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Get photos by " + auth.getPrincipal());
+        System.out.println("Get Auctions with miniature by " + auth.getPrincipal());
         Long owner_id = userService.getIdFromUser(String.valueOf(auth.getPrincipal()));
-        return sectionService.getAuction(owner_id,1L) ;
+        return sectionService.getAuction(owner_id) ;
     }
 }
