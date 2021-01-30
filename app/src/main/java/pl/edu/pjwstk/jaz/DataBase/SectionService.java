@@ -154,7 +154,7 @@ public class SectionService {
                 auctionParameterEntity.setAuctionEntity(auctionEntity);
                 auctionParameterEntity.setParameterEntity(parameterEntity);
                 auctionEntity.addAuctionParameter(auctionParameterEntity);
-//                entityManager.merge(auctionParameterEntity);
+                entityManager.merge(auctionParameterEntity);
             }
         } else {
             System.out.println("His/Her id : " + owner_id);
@@ -230,9 +230,10 @@ public class SectionService {
                .setParameter("auction_id",auction_id)
                .getSingleResult();
    }
-    public AuctionEntity getAuction(Long owner_id) {
-        return entityManager.createQuery("select ue from AuctionEntity ue where  ue.owner_id =: owner_id", AuctionEntity.class)
+    public List<AuctionEntity> getAuction(Long owner_id,Long position) {
+        return entityManager.createQuery("select ue from AuctionEntity ue,PhotoEntity po where  ue.owner_id =: owner_id and po.position =: position", AuctionEntity.class)
                 .setParameter("owner_id",owner_id)
-                .getSingleResult();
+                .setParameter("position",position)
+                .getResultList();
     }
 }

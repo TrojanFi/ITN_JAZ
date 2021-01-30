@@ -64,10 +64,10 @@ public class AuctionController {
 
     @PreAuthorize("hasAnyAuthority('User')")
     @GetMapping("/getAuctionWithPhoto")
-    public AuctionEntity getAuctionWithPhoto(){
+    public List<AuctionEntity> getAuctionWithPhoto(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Get photos by " + auth.getPrincipal());
         Long owner_id = userService.getIdFromUser(String.valueOf(auth.getPrincipal()));
-        return sectionService.findAuctionByOwnerId(1L,owner_id) ;
+        return sectionService.getAuction(owner_id,1L) ;
     }
 }
