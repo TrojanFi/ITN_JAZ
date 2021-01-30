@@ -113,7 +113,7 @@ public class SectionService {
             ParameterEntity parameterEntity = parameterRepository.findByName(parameters.get(i)).orElseGet(ParameterEntity::new);
             if(parameterEntity.getName() == null){
                 parameterEntity.setName(parameters.get(i));
-//                this.parameterRepository.save(parameterEntity);
+                this.parameterRepository.save(parameterEntity);
             }
             else {
                 System.out.println("Parameter already exists ");
@@ -125,7 +125,7 @@ public class SectionService {
             auctionParameterEntity.setAuctionEntity(auctionEntity);
             auctionParameterEntity.setParameterEntity(parameterEntity);
             auctionEntity.addAuctionParameter(auctionParameterEntity);
-//            entityManager.merge(auctionParameterEntity);
+            entityManager.merge(auctionParameterEntity);
             }
 
         }

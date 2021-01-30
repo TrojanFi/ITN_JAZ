@@ -1,6 +1,8 @@
 package pl.edu.pjwstk.jaz.DataBase;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +34,9 @@ public class AuctionEntity {
     @JoinColumn(name = "auction_id", referencedColumnName = "id")
     private final Set<PhotoEntity> photos = new HashSet<>();
 
+
     @OneToMany(mappedBy = "auctionEntity")
+    @JsonIgnore
     Set<AuctionParameterEntity> auctionParameterEntities = new HashSet<>();
 
     public Set<AuctionParameterEntity> getAuctionParameterEntities() {
