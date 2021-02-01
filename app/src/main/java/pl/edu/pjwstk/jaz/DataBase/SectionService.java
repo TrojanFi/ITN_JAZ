@@ -33,20 +33,19 @@ public class SectionService {
     }
 
     public void addSection(String sectionName) {
-        try {
         SectionEntity sectionEntity = new SectionEntity(sectionName);
-        this.sectionRepository.save(sectionEntity);
-        }catch (Exception exception){
-            System.out.println("Bad Json");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if(sectionName.equals(""))throw new ResponseStatusException(HttpStatus.NO_CONTENT,"204");
+        else {
+            this.sectionRepository.save(sectionEntity);
         }
     }
 
     public void addCategory(String sectionName, List<String> categories) {
-       try {
+
         SectionEntity sectionEntity = sectionRepository.findByName(sectionName).orElseGet(SectionEntity::new);
         if(sectionEntity.getName() == null){
             System.out.println("No section like that");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"400");
         }
         else {
             for (String auto : categories) {
@@ -54,52 +53,52 @@ public class SectionService {
             }
 
             for (String category : categories) {
-                CategoryEntity categoryEntity = new CategoryEntity(category);
-                sectionEntity.getCategories().add(categoryEntity);
+                if(category.equals(""))throw new ResponseStatusException(HttpStatus.NO_CONTENT,"204");
+                else {
+                    CategoryEntity categoryEntity = new CategoryEntity(category);
+                    sectionEntity.getCategories().add(categoryEntity);
+                }
             }
         }
-    }catch (Exception exception){
-        System.out.println("Bad Json");
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-    }
     }
     public void editSection(String sectionName,String newSectionName){
-     try {
+
         SectionEntity sectionEntity = sectionRepository.findByName(sectionName).orElseGet(SectionEntity::new);
         if(sectionEntity.getName() == null){
             System.out.println("No section name like that");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"400");
         }
         else {
             sectionEntity.setName(newSectionName);
-            this.sectionRepository.save(sectionEntity);
+            if(newSectionName.equals(""))throw new ResponseStatusException(HttpStatus.NO_CONTENT,"204");
+            else {
+                this.sectionRepository.save(sectionEntity);
+            }
         }
-    }catch (Exception exception){
-        System.out.println("Bad Json");
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-    }
     }
 
     public void editCategory(String categoryName,String newCategoryName){
-        try {
+
         CategoryEntity categoryEntity = categoryRepository.findByName(categoryName).orElseGet(CategoryEntity::new);
         if(categoryEntity.getName() == null){
             System.out.println("No category name like that");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"400");
         }
         else {
             categoryEntity.setName(newCategoryName);
+            if(newCategoryName.equals(""))throw new ResponseStatusException(HttpStatus.NO_CONTENT,"204");
+            else {
             this.categoryRepository.save(categoryEntity);
+            }
         }
-    }catch (Exception exception){
-        System.out.println("Bad Json");
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-    }
     }
 
     public void addAuction(String categoryName, String title, String description,int price,Long owner_id,List<String> photos,List<String> values,List<String> parameters) {
-       try{
+
         CategoryEntity categoryEntity = categoryRepository.findByName(categoryName).orElseGet(CategoryEntity::new);
         if(categoryEntity.getName() == null){
             System.out.println("No category like that");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         else {
             AuctionEntity auctionEntity = new AuctionEntity(title,description,owner_id,price);
@@ -130,10 +129,6 @@ public class SectionService {
             }
 
         }
-    }catch (Exception exception){
-           System.out.println("Bad Json");
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-       }
     }
 
     public void editAuction(Long auction_id,Long owner_id,String parameter,String newValue,String newTitle,int newPrice) {
