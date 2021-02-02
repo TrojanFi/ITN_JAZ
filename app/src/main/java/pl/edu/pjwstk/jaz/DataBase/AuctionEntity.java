@@ -36,7 +36,6 @@ public class AuctionEntity {
 
 
     @OneToMany(mappedBy = "auctionEntity")
-    @JsonIgnore
     Set<AuctionParameterEntity> auctionParameterEntities = new HashSet<>();
 
     public Set<AuctionParameterEntity> getAuctionParameterEntities() {

@@ -64,12 +64,30 @@ public class SectionTest {
     public void adminAddSectionTest200() {
         // @formatter:off
         given()
-                .body(new SectionRequest("House",Arrays.asList("Kitchen","Bathroom")))
+                .body(new SectionRequest("Museum",Arrays.asList("Kitchen","Bathroom")))
                 .contentType(ContentType.JSON)
                 .cookies(adminLogging().getCookies())
                 .post("/api/addSection")
                 .then()
                 .statusCode(org.springframework.http.HttpStatus.OK.value());
+        // @formatter:on
+    }
+
+    @Test
+    public void adminAddSectionWithTheSameNameTest400() {
+        // @formatter:off
+        given()
+                .body(new SectionRequest("Cinema",Arrays.asList("Kitchen","Bathroom")))
+                .contentType(ContentType.JSON)
+                .cookies(adminLogging().getCookies())
+                .post("/api/addSection");
+        given()
+                .body(new SectionRequest("Cinema",Arrays.asList("Kitchen","Bathroom")))
+                .contentType(ContentType.JSON)
+                .cookies(adminLogging().getCookies())
+                .post("/api/addSection")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         // @formatter:on
     }
 
@@ -99,7 +117,7 @@ public class SectionTest {
     }
 
     @Test
-    public void adminAddSectionTestWithNoData204() {
+    public void adminAddSectionTestWithNoData400() {
         // @formatter:off
         given()
                 .body(new SectionRequest("",Arrays.asList("Kitchen","Bathroom")))
@@ -107,7 +125,7 @@ public class SectionTest {
                 .cookies(adminLogging().getCookies())
                 .post("/api/addSection")
                 .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         // @formatter:on
     }
 
@@ -174,7 +192,7 @@ public class SectionTest {
     }
 
     @Test
-    public void adminEditSectionTestWithEmptyNewName204() {
+    public void adminEditSectionTestWithEmptyNewName400() {
         // @formatter:off
         given()
                 .body(new SectionRequest("House",Arrays.asList("Kitchen","Bathroom")))
@@ -187,7 +205,7 @@ public class SectionTest {
                 .cookies(adminLogging().getCookies())
                 .post("/api/editSection")
                 .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         // @formatter:on
     }
 
@@ -253,7 +271,7 @@ public class SectionTest {
     }
 
     @Test
-    public void adminAddCategoryTestWithEmptyCategoryName204() {
+    public void adminAddCategoryTestWithEmptyCategoryName400() {
         // @formatter:off
         given()
                 .body(new SectionRequest("D",Arrays.asList("Kitchen","Bathroom")))
@@ -266,7 +284,7 @@ public class SectionTest {
                 .cookies(adminLogging().getCookies())
                 .post("/api/addCategory")
                 .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         // @formatter:on
     }
 
@@ -298,7 +316,7 @@ public class SectionTest {
     }
 
     @Test
-    public void adminEditCategoryTestWithEmptyCategoryNewName204() {
+    public void adminEditCategoryTestWithEmptyCategoryNewName400() {
         // @formatter:off
         given()
                 .body(new SectionRequest("G",Arrays.asList("Kitchen","Bathroom")))
@@ -316,7 +334,7 @@ public class SectionTest {
                 .cookies(adminLogging().getCookies())
                 .post("/api/editCategory")
                 .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         // @formatter:on
     }
 
